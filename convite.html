@@ -10,6 +10,9 @@
   input{font:inherit;font-size:16px;padding:12px 14px;border-radius:10px;border:2px solid rgba(255,251,240,.2);background:#3A2415;color:#FFFBF0;min-width:240px}
   button{font:inherit;font-size:16px;font-weight:bold;padding:12px 20px;border-radius:10px;border:0;background:#E3B200;color:#25140C;cursor:pointer}
   button.sec{background:transparent;color:#FFFBF0;border:2px solid rgba(255,251,240,.35)}
+  .sexo{display:flex;border:2px solid rgba(255,251,240,.2);border-radius:10px;overflow:hidden}
+  .sexo button{background:transparent;color:#FFFBF0;border:0;border-radius:0;padding:12px 16px;font-weight:600}
+  .sexo button.on{background:#E3B200;color:#25140C}
   #ok{font-size:14px;color:#E3B200;min-width:180px}
   iframe{width:100%;height:calc(100vh - 80px);border:0;background:#F1E6C8}
 </style>
@@ -18,6 +21,7 @@
 <div class="top">
   <b>Convite Raccoon Club</b>
   <input id="nome" placeholder="Nome de quem vai receber" autofocus>
+  <div class="sexo" id="sexo"><button type="button" data-v="m" class="on">Masculino</button><button type="button" data-v="f">Feminino</button></div>
   <button id="copiar">Copiar e-mail</button>
   <button class="sec" id="assunto">Copiar assunto</button>
   <span id="ok"></span>
@@ -28,7 +32,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>[NOME], você foi convidado pro Raccoon Club</title>
+<meta name="color-scheme" content="light only">
+<meta name="supported-color-schemes" content="light only">
+<style>:root{color-scheme:light only;supported-color-schemes:light only}
+@media (prefers-color-scheme:dark){.rc-dark{background:#25140C!important}.rc-yellow{background:#E3B200!important}.rc-cream{color:#FFFBF0!important}.rc-brown{color:#25140C!important}}</style>
+<title>[NOME], você foi [CONVIDADO] pro Raccoon Club</title>
 </head>
 <body style="margin:0;padding:0;background:#F1E6C8;">
 <div style="display:none;max-height:0;overflow:hidden;">Uma comunidade de cristãos que trabalham com criação e marketing. Convite pessoal.</div>
@@ -37,18 +45,18 @@
 <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;">
 
   <!-- topo -->
-  <tr><td style="background:#25140C;border-radius:28px 28px 0 0;padding:40px 40px 0 40px;">
+  <tr><td class="rc-dark" bgcolor="#25140C" style="background:#25140C;border-radius:28px 28px 0 0;padding:40px 40px 0 40px;">
     <img src="https://raccoonclub.riseagencia.com/badge.png" alt="Raccoon Club" width="150" style="display:block;width:150px;height:auto;border:0;">
   </td></tr>
 
-  <tr><td style="background:#25140C;padding:36px 40px 0 40px;">
+  <tr><td class="rc-dark" bgcolor="#25140C" style="background:#25140C;padding:36px 40px 0 40px;">
     <p style="margin:0 0 18px 0;font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:bold;letter-spacing:.06em;text-transform:uppercase;color:#E3B200;">Convite pessoal</p>
     <h1 style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:40px;line-height:1.02;font-weight:900;letter-spacing:-.02em;color:#FFFBF0;">
-      [NOME], você foi<br>convidado pro<br><span style="color:#E3B200;">Raccoon Club.</span>
+      [NOME], você foi<br>[CONVIDADO] pro<br><span style="color:#E3B200;">Raccoon Club.</span>
     </h1>
   </td></tr>
 
-  <tr><td style="background:#25140C;padding:28px 40px 40px 40px;">
+  <tr><td class="rc-dark" bgcolor="#25140C" style="background:#25140C;padding:28px 40px 40px 40px;">
     <p style="margin:0 0 14px 0;font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.55;color:#FFFBF0;">
       Uma comunidade de cristãos que trabalham com criação e marketing. Gratuita, aberta e por convite.
     </p>
@@ -56,14 +64,14 @@
       Vagas que circulam, troca de ferramentas e referências, e gente que aparece pra apoiar o que você publica. Você foi uma das primeiras pessoas que eu quis chamar.
     </p>
     <table role="presentation" cellpadding="0" cellspacing="0">
-      <tr><td style="background:#E3B200;border-radius:12px;">
+      <tr><td class="rc-yellow" bgcolor="#E3B200" style="background:#E3B200;border-radius:12px;">
         <a href="https://raccoonclub.riseagencia.com/?nome=[NOME]" style="display:inline-block;padding:16px 26px;font-family:Arial,Helvetica,sans-serif;font-size:17px;font-weight:bold;color:#25140C;text-decoration:none;">Conheça agora o Raccoon Club</a>
       </td></tr>
     </table>
   </td></tr>
 
   <!-- guaxinim -->
-  <tr><td style="background:#E3B200;border-radius:0 0 28px 28px;padding:28px 40px 32px 40px;">
+  <tr><td class="rc-yellow" bgcolor="#E3B200" style="background:#E3B200;border-radius:0 0 28px 28px;padding:28px 40px 32px 40px;">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
       <td valign="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.5;color:#25140C;">
         <strong style="font-size:17px;">Começa no WhatsApp. Mas só começa.</strong><br>
@@ -92,10 +100,13 @@
   const $ = id => document.getElementById(id);
   const nome = () => ($('nome').value.trim() || 'Você');
   const primeiro = () => nome().split(' ')[0];
+  let sexo = 'm';
+  const conv = () => sexo === 'f' ? 'convidada' : 'convidado';
+  document.querySelectorAll('#sexo button').forEach(b => b.addEventListener('click', () => { sexo = b.dataset.v; document.querySelectorAll('#sexo button').forEach(x => x.classList.toggle('on', x === b)); render(); }));
   const html = (h = false) => tpl
     .replaceAll(HOST.badge, h ? HOST.badge : IMG.badge).replaceAll(HOST.icon, h ? HOST.icon : IMG.icon)
     .replaceAll('?nome=[NOME]', '?nome=' + encodeURIComponent(nome()))
-    .replaceAll('[NOME]', primeiro());
+    .replaceAll('[NOME]', primeiro()).replaceAll('[CONVIDADO]', conv());
   const render = () => { $('prev').srcdoc = html(); };
   render();
   $('nome').addEventListener('input', render);
@@ -106,13 +117,13 @@
     try {
       await navigator.clipboard.write([new ClipboardItem({
         'text/html': new Blob([corpo], { type: 'text/html' }),
-        'text/plain': new Blob([primeiro() + ', você foi convidado pro Raccoon Club: https://raccoonclub.riseagencia.com/?nome=' + encodeURIComponent(nome())], { type: 'text/plain' })
+        'text/plain': new Blob([primeiro() + ', você foi ' + conv() + ' pro Raccoon Club: https://raccoonclub.riseagencia.com/?nome=' + encodeURIComponent(nome())], { type: 'text/plain' })
       })]);
       avisa('Copiado. Cola no corpo do e-mail.');
     } catch (e) { avisa('Não deu pra copiar. Usa Chrome ou Edge.'); }
   });
   $('assunto').addEventListener('click', async () => {
-    await navigator.clipboard.writeText(primeiro() + ', você foi convidado pro Raccoon Club');
+    await navigator.clipboard.writeText(primeiro() + ', você foi ' + conv() + ' pro Raccoon Club');
     avisa('Assunto copiado.');
   });
 </script>
