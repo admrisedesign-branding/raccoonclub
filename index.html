@@ -389,10 +389,7 @@
   const params = new URLSearchParams(location.search);
   const nomeConvidado = (params.get('nome') || '').trim();
   if (nomeConvidado) {
-    const primeiro = nomeConvidado.split(' ')[0];
-    document.getElementById('h1a').textContent = primeiro + ', você foi';
     document.getElementById('nome').value = nomeConvidado;
-    document.title = primeiro + ', você foi convidado — Raccoon Club';
   }
 
   // vídeo de fundo: some se o arquivo não existir
