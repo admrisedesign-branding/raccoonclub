@@ -39,7 +39,7 @@
 <title>[NOME], você foi [CONVIDADO] pro Raccoon Club</title>
 </head>
 <body style="margin:0;padding:0;background:#F1E6C8;">
-<div style="display:none;max-height:0;overflow:hidden;">Uma comunidade de cristãos que trabalham com criação e marketing. Convite pessoal.</div>
+<div style="display:none;max-height:0;overflow:hidden;">Uma comunidade de cristãos que trabalham com criação e marketing. Convite exclusivo.</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F1E6C8;padding:32px 12px;">
 <tr><td align="center">
 <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;">
@@ -58,10 +58,10 @@
 
   <tr><td class="rc-dark" bgcolor="#25140C" style="background:#25140C;padding:28px 40px 40px 40px;">
     <p style="margin:0 0 14px 0;font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.55;color:#FFFBF0;">
-      Uma comunidade de cristãos que trabalham com criação e marketing. Gratuita, aberta e por convite.
+      Uma comunidade de cristãos que trabalham com criação e marketing. Gratuita e com convite exclusivo.
     </p>
     <p style="margin:0 0 30px 0;font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.55;color:#D9CDB4;">
-      Vagas que circulam, troca de ferramentas e referências, e gente que aparece pra apoiar o que você publica. Você foi uma das primeiras pessoas que eu quis chamar.
+      Vagas, trocas de aprendizados, indicações, apoio em projetos, networking e muito mais. Um espaço para o seu crescimento profissional na área. E você foi [PENSADO] a dedo para estar aqui agora lendo isso.
     </p>
     <table role="presentation" cellpadding="0" cellspacing="0">
       <tr><td class="rc-yellow" bgcolor="#E3B200" style="background:#E3B200;border-radius:12px;">
@@ -75,7 +75,7 @@
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
       <td valign="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.5;color:#25140C;">
         <strong style="font-size:17px;">Começa no WhatsApp. Mas só começa.</strong><br>
-        Encontros, workshops e projetos entre membros vêm depois.
+        No futuro a Raccoon pretende sonhar com encontros presenciais, workshops e parcerias entre membros. Então vem com a gente participar dessa rede.
       </td>
       <td width="96" valign="middle" align="right">
         <img src="https://raccoonclub.riseagencia.com/icon.png" alt="" width="84" style="display:block;width:84px;height:auto;border:0;">
@@ -84,7 +84,7 @@
   </td></tr>
 
   <tr><td style="padding:22px 20px 0 20px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.5;color:#7a6a55;text-align:center;">
-    Convite enviado por Joice Molinari · Raccoon Club é uma comunidade criada pela RISE Design &amp; Branding
+    Convite enviado pelo time de gestão da RISE - A Raccoon Club é uma comunidade criativa criada pela RISE Design &amp; Branding
   </td></tr>
 
 </table>
@@ -102,11 +102,12 @@
   const primeiro = () => nome().split(' ')[0];
   let sexo = 'm';
   const conv = () => sexo === 'f' ? 'convidada' : 'convidado';
+  const pens = () => sexo === 'f' ? 'pensada' : 'pensado';
   document.querySelectorAll('#sexo button').forEach(b => b.addEventListener('click', () => { sexo = b.dataset.v; document.querySelectorAll('#sexo button').forEach(x => x.classList.toggle('on', x === b)); render(); }));
   const html = (h = false) => tpl
     .replaceAll(HOST.badge, h ? HOST.badge : IMG.badge).replaceAll(HOST.icon, h ? HOST.icon : IMG.icon)
     .replaceAll('?nome=[NOME]', '?nome=' + encodeURIComponent(nome()))
-    .replaceAll('[NOME]', primeiro()).replaceAll('[CONVIDADO]', conv());
+    .replaceAll('[NOME]', primeiro()).replaceAll('[CONVIDADO]', conv()).replaceAll('[PENSADO]', pens());
   const render = () => { $('prev').srcdoc = html(); };
   render();
   $('nome').addEventListener('input', render);
