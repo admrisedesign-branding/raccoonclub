@@ -245,7 +245,6 @@
             <div class="perm">
               <label><input type="checkbox" id="okEmail"><span>Posso te enviar por e-mail artigos, convites de encontros e novidades do Raccoon?</span></label>
               <label><input type="checkbox" id="okVagas"><span>Quer receber vagas que combinam com o seu perfil?</span></label>
-              <label><input type="checkbox" id="okBanco"><span>Posso compartilhar suas áreas e nível com os membros no banco de talentos?<small>Só área e nível. Nunca e-mail nem WhatsApp.</small></span></label>
             </div>
             <p class="aviso">Deixar tudo desmarcado também está ok. Suas respostas ficam só com a organização do Raccoon Club.</p>
           </section>
@@ -422,8 +421,7 @@
       periodo: estado.periodo || [],
       dias: estado.dias || [],
       aceita_email: $('okEmail').checked,
-      aceita_vagas: $('okVagas').checked,
-      aceita_banco_talentos: $('okBanco').checked
+      aceita_vagas: $('okVagas').checked
     });
     if (error) {
       console.error(error);
