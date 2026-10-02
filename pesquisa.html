@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Raccoon Club — pesquisa dos membros</title>
+<meta name="description" content="Responda em 3 minutinhos pra gente montar treinamentos, conteúdos e encontros que façam sentido pra você.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --amarelo:#E3B200;--amarelo-2:#F5C518;
+    --marrom:#25140C;--marrom-2:#3A2415;
+    --creme:#FFFBF0;--areia:#F1E6C8;
+    --display:'Bricolage Grotesque',sans-serif;--texto:'Manrope',sans-serif;
+    --ease:cubic-bezier(.2,.7,.2,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--texto);color:var(--marrom);background:var(--marrom);line-height:1.55;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100svh}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:var(--display);line-height:.98;letter-spacing:-.025em;font-weight:800}
+  p{max-width:52ch}
+  .wrap{width:min(1180px,100% - 48px);margin-inline:auto}
+  :focus-visible{outline:3px solid var(--amarelo);outline-offset:3px}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;font-family:var(--display);font-weight:700;font-size:18px;padding:16px 26px;border-radius:14px;border:0;cursor:pointer;transition:transform .25s var(--ease),background .2s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn:active{transform:translateY(0)}
+  .btn:disabled{opacity:.6;cursor:wait;transform:none}
+  .btn-amarelo{background:var(--amarelo);color:var(--marrom)}
+  .btn-amarelo:hover{background:var(--amarelo-2)}
+  .btn-marrom{background:var(--marrom);color:var(--creme)}
+  .btn-marrom:hover{background:var(--marrom-2)}
+  .btn-ghost{background:transparent;color:var(--marrom);border:2px solid rgba(37,20,12,.25)}
+  .btn-ghost:hover{border-color:var(--marrom)}
+
+  /* topo */
+  .topo{position:relative;color:var(--creme);overflow:hidden;isolation:isolate;padding:28px 0 96px}
+  .topo::before{content:'';position:absolute;inset:0;z-index:-1;background:radial-gradient(70% 80% at 80% 30%,#5a3a16 0%,var(--marrom) 62%)}
+  .topo .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center}
+  .topo .logo{height:44px;margin-bottom:56px}
+  .tag{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:var(--amarelo);margin-bottom:22px}
+  .tag i{width:10px;height:10px;border-radius:50%;background:var(--amarelo);animation:pulse 2.2s infinite}
+  @keyframes pulse{70%{box-shadow:0 0 0 12px rgba(227,178,0,0)}0%{box-shadow:0 0 0 0 rgba(227,178,0,.6)}100%{box-shadow:0 0 0 0 rgba(227,178,0,0)}}
+  .topo h1{font-size:clamp(40px,6vw,84px)}
+  .topo h1 em{font-style:normal;color:var(--amarelo)}
+  .topo p{color:rgba(255,251,240,.78);margin-top:22px;font-size:clamp(17px,1.5vw,20px);max-width:44ch}
+  .mascote{justify-self:center;width:min(100%,340px);position:relative}
+  .mascote::before{content:'';position:absolute;inset:8% -10% -8%;background:radial-gradient(closest-side,rgba(227,178,0,.35),transparent 70%);z-index:-1}
+  .mascote img{filter:drop-shadow(0 30px 40px rgba(0,0,0,.45));animation:flutua 5s ease-in-out infinite}
+  @keyframes flutua{50%{transform:translateY(-10px) rotate(-2deg)}}
+  @media (max-width:760px){
+    .topo{padding-bottom:84px}
+    .topo .wrap{grid-template-columns:1fr}
+    .topo .logo{margin-bottom:28px}
+    .mascote{width:min(46vw,200px);justify-self:start;order:-1}
+  }
+  @media (prefers-reduced-motion:reduce){.mascote img,.tag i{animation:none}}
+
+  /* painel amarelo com o formulário */
+  .painel{position:relative;background:var(--amarelo);border-radius:48px 48px 0 0;margin-top:-48px;padding:72px 0 110px}
+  @media (max-width:640px){.painel{border-radius:32px 32px 0 0;padding:44px 0 80px;margin-top:-40px}}
+  .card-f{background:var(--creme);border-radius:32px;padding:52px;max-width:760px;margin-inline:auto;position:relative}
+  @media (max-width:640px){.card-f{padding:30px 20px;border-radius:24px}}
+
+  .passo{font-weight:600;color:rgba(37,20,12,.55);margin-bottom:30px;display:flex;align-items:center;gap:14px;font-size:15px}
+  .passo i{flex:1;height:4px;background:rgba(37,20,12,.12);border-radius:4px;overflow:hidden}
+  .passo i::after{content:'';display:block;height:100%;width:var(--p,16%);background:var(--amarelo);transition:width .5s var(--ease)}
+  .etapa{display:none}
+  .etapa.on{display:block;animation:entra .45s var(--ease)}
+  @keyframes entra{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+  .etapa h2{font-size:clamp(30px,3.6vw,44px);margin-bottom:6px}
+  .etapa .sub{color:rgba(37,20,12,.65);font-weight:500;margin-bottom:26px}
+
+  .campos{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media (max-width:640px){.campos{grid-template-columns:1fr}}
+  .campo{display:flex;flex-direction:column;gap:8px;position:relative;min-width:0}
+  .campo.full{grid-column:1/-1}
+  .rotulo{font-weight:700;font-size:15.5px}
+  .rotulo small{font-weight:500;color:rgba(37,20,12,.5);margin-left:6px}
+  input[type=text],input[type=email],input[type=tel],textarea{font:inherit;font-size:17px;color:var(--marrom);background:#fff;border:2px solid rgba(37,20,12,.15);border-radius:12px;padding:13px 15px;width:100%;transition:border-color .2s}
+  textarea{resize:vertical;min-height:96px}
+  input:hover,textarea:hover{border-color:rgba(37,20,12,.4)}
+  input:focus,textarea:focus{border-color:var(--marrom);outline:0}
+
+  /* opções em pílulas */
+  .chips{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{font:inherit;font-weight:600;font-size:15.5px;color:var(--marrom);background:#fff;border:2px solid rgba(37,20,12,.18);border-radius:999px;padding:10px 18px;cursor:pointer;transition:background .2s,border-color .2s,transform .2s var(--ease);text-align:left;line-height:1.25}
+  .chip:hover{border-color:var(--marrom);transform:translateY(-1px)}
+  .chip[aria-pressed=true]{background:var(--marrom);color:var(--creme);border-color:var(--marrom)}
+  .chip[aria-pressed=true]::before{content:'✓ ';color:var(--amarelo)}
+  .chip.bloq{opacity:.4;cursor:not-allowed;transform:none}
+  .limite{font-size:13.5px;color:rgba(37,20,12,.55);font-weight:600}
+  .grupo{margin-top:6px}
+  .grupo h3{font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:rgba(37,20,12,.5);margin:18px 0 10px;font-weight:700;font-family:var(--texto)}
+  .grupo:first-child h3{margin-top:0}
+
+  /* permissões */
+  .perm{display:flex;flex-direction:column;gap:12px}
+  .perm label{display:flex;gap:14px;align-items:flex-start;background:#fff;border:2px solid rgba(37,20,12,.15);border-radius:14px;padding:16px 18px;cursor:pointer;font-weight:600;transition:border-color .2s}
+  .perm label:hover{border-color:var(--marrom)}
+  .perm input{appearance:none;flex:0 0 24px;width:24px;height:24px;border:2px solid var(--marrom);border-radius:7px;background:#fff;margin-top:1px;cursor:pointer;display:grid;place-items:center}
+  .perm input:checked{background:var(--amarelo)}
+  .perm input:checked::after{content:'✓';font-weight:800;font-size:15px;color:var(--marrom)}
+  .perm small{display:block;font-weight:500;color:rgba(37,20,12,.6);font-size:14px}
+
+  .acoes{margin-top:32px;display:flex;gap:12px;flex-wrap:wrap}
+  .acoes .btn{flex:1;font-size:19px;padding:18px}
+  .acoes .btn-ghost{flex:0 0 auto}
+  .erro{display:none;background:#fde8e3;color:#7a2a17;border-radius:12px;padding:12px 16px;font-weight:600;margin-top:18px}
+  .erro.on{display:block}
+  .aviso{font-size:13px;color:rgba(37,20,12,.55);margin-top:16px;max-width:none}
+
+  .sucesso{display:none;text-align:center}
+  .sucesso.on{display:block;animation:entra .5s var(--ease)}
+  .sucesso img{width:170px;margin:0 auto 20px}
+  .sucesso h2{font-size:clamp(34px,4.4vw,54px);margin-bottom:10px}
+  .sucesso p{margin:10px auto 0;color:rgba(37,20,12,.75);font-weight:500}
+
+  footer{background:var(--marrom);color:rgba(255,251,240,.55);padding:44px 0 36px;font-size:14px}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  footer img{height:36px;filter:brightness(0) invert(1);opacity:.9}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="wrap">
+    <div>
+      <img class="logo" src="badge.png" alt="Raccoon Club">
+      <div class="tag"><i></i>Pesquisa dos membros · 3 minutinhos</div>
+      <h1>Vamos crescer <em>juntos.</em></h1>
+      <p>Quero entender quem é você, o que você ama fazer e o que espera daqui. Com as respostas, a gente monta treinamentos, conteúdos e encontros que fazem sentido de verdade.</p>
+    </div>
+    <div class="mascote"><img src="icon.png" alt=""></div>
+  </div>
+</header>
+
+<main class="painel">
+  <div class="wrap">
+    <div class="card-f">
+      <div id="formBox">
+        <div class="passo"><span id="passoTxt">Passo 1 de 6</span><i id="barra"></i></div>
+        <form id="f" novalidate autocomplete="on">
+          <input class="hp" type="text" id="site" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <!-- 1 -->
+          <section class="etapa on" data-etapa="1">
+            <h2>Oi! Quem é você?</h2>
+            <p class="sub">Só pra eu saber com quem estou falando.</p>
+            <div class="campos">
+              <div class="campo full"><label class="rotulo" for="nome">Nome</label><input type="text" id="nome" required autocomplete="name"></div>
+              <div class="campo"><label class="rotulo" for="email">E-mail</label><input type="email" id="email" required autocomplete="email"></div>
+              <div class="campo"><label class="rotulo" for="whatsapp">WhatsApp</label><input type="tel" id="whatsapp" required placeholder="(92) 99999-9999" autocomplete="tel"></div>
+            </div>
+          </section>
+
+          <!-- 2 -->
+          <section class="etapa" data-etapa="2">
+            <h2>Sua trajetória</h2>
+            <p class="sub">Sem certo ou errado. É pra montar conteúdos no nível de cada um.</p>
+            <div class="campo" style="margin-bottom:26px"><span class="rotulo">Qual o seu nível hoje?</span>
+              <div class="chips" data-nome="nivel" data-max="1">
+                <button type="button" class="chip">Estou começando</button><button type="button" class="chip">Júnior</button><button type="button" class="chip">Pleno</button><button type="button" class="chip">Sênior</button><button type="button" class="chip">Lidero equipe ou tenho agência</button>
+              </div></div>
+            <div class="campo" style="margin-bottom:26px"><span class="rotulo">Qual a sua formação?</span>
+              <div class="chips" data-nome="formacao" data-max="1">
+                <button type="button" class="chip">Autodidata</button><button type="button" class="chip">Cursos livres ou bootcamp</button><button type="button" class="chip">Técnico</button><button type="button" class="chip">Graduação em andamento</button><button type="button" class="chip">Graduado</button><button type="button" class="chip">Pós ou mais</button>
+              </div></div>
+            <div class="campo"><span class="rotulo">Como você trabalha hoje?</span>
+              <div class="chips" data-nome="trabalho" data-max="1">
+                <button type="button" class="chip">CLT</button><button type="button" class="chip">PJ</button><button type="button" class="chip">Freelancer</button><button type="button" class="chip">Tenho meu negócio</button><button type="button" class="chip">Estou em busca de oportunidade</button>
+              </div></div>
+          </section>
+
+          <!-- 3 -->
+          <section class="etapa" data-etapa="3">
+            <h2>O que você ama fazer</h2>
+            <p class="sub">É aqui que a gente descobre as áreas em que dá pra trocar mais.</p>
+            <div class="campo" style="margin-bottom:26px"><span class="rotulo">Você se identifica mais como:</span>
+              <div class="chips" data-nome="identidade" data-max="1" id="chipsIdentidade">
+                <button type="button" class="chip">Design gráfico</button><button type="button" class="chip">Design digital</button><button type="button" class="chip">Audiovisual</button><button type="button" class="chip">Estratégia e direção</button><button type="button" class="chip">Ainda estou descobrindo</button>
+              </div></div>
+            <div class="campo" id="blocoAreas" style="margin-bottom:26px;display:none"><span class="rotulo">Dentro disso, o que você mais ama fazer? <small id="dicaAreas">até 2</small></span>
+              <div id="areasBox"></div></div>
+            <div class="campo"><label class="rotulo" for="aprender">O que você quer aprender nos próximos 6 meses? <small>resposta curta</small></label><input type="text" id="aprender" maxlength="300" placeholder="Ex.: motion, precificação, Figma avançado…"></div>
+          </section>
+
+          <!-- 4 -->
+          <section class="etapa" data-etapa="4">
+            <h2>O que você espera daqui</h2>
+            <p class="sub">Isso decide o que vem primeiro no Raccoon.</p>
+            <div class="campo" style="margin-bottom:26px"><span class="rotulo">Escolha até 3 <small id="cntExp">0 de 3</small></span>
+              <div class="chips" data-nome="expectativas" data-max="3" data-cnt="cntExp">
+                <button type="button" class="chip">Vagas e indicações</button><button type="button" class="chip">Networking</button><button type="button" class="chip">Aprender com os outros</button><button type="button" class="chip">Mentoria</button><button type="button" class="chip">Feedback no meu trabalho</button><button type="button" class="chip">Parcerias e freelas</button><button type="button" class="chip">Divulgar meu trabalho</button><button type="button" class="chip">Apoio e incentivo</button>
+              </div></div>
+            <div class="campo"><label class="rotulo" for="dificuldade">Qual a sua maior dificuldade na profissão hoje?</label><textarea id="dificuldade" maxlength="800" placeholder="Pode escrever à vontade. Essa resposta costuma virar tema de treinamento."></textarea></div>
+          </section>
+
+          <!-- 5 -->
+          <section class="etapa" data-etapa="5">
+            <h2>Palestras e encontros</h2>
+            <p class="sub">A ideia é que a gente aprenda uns com os outros.</p>
+            <div class="campo" style="margin-bottom:26px"><span class="rotulo">Você toparia compartilhar o que sabe com o grupo?</span>
+              <div class="chips" data-nome="palestrar" data-max="1" id="chipsPalestra">
+                <button type="button" class="chip">Já palestro e topo</button><button type="button" class="chip">Topo e já tenho um tema</button><button type="button" class="chip">Topo, mas preciso de ajuda pra começar</button><button type="button" class="chip">Prefiro só assistir por enquanto</button>
+              </div></div>
+            <div class="campo" id="blocoTema" style="margin-bottom:26px;display:none"><label class="rotulo" for="tema">Sobre qual tema? <small>opcional</small></label><input type="text" id="tema" maxlength="250" placeholder="Ex.: construir identidade visual do zero"></div>
+            <div class="campo" style="margin-bottom:26px"><span class="rotulo">Como prefere participar? <small>pode marcar mais de uma</small></span>
+              <div class="chips" data-nome="participacao" data-max="6">
+                <button type="button" class="chip">Encontros online</button><button type="button" class="chip">Presenciais em Manaus</button><button type="button" class="chip">Conteúdo por escrito ou vídeo</button><button type="button" class="chip">Desafios e atividades</button>
+              </div></div>
+            <div class="campo"><span class="rotulo">Melhor dia e horário pra encontros online? <small>pode marcar mais de uma</small></span>
+              <div class="chips" data-nome="periodo" data-max="3" style="margin-bottom:8px"><button type="button" class="chip">Manhã</button><button type="button" class="chip">Tarde</button><button type="button" class="chip">Noite</button></div>
+              <div class="chips" data-nome="dias" data-max="2"><button type="button" class="chip">Durante a semana</button><button type="button" class="chip">Fim de semana</button></div>
+            </div>
+          </section>
+
+          <!-- 6 -->
+          <section class="etapa" data-etapa="6">
+            <h2>Última coisa</h2>
+            <p class="sub">Você decide o que eu posso fazer com as suas respostas.</p>
+            <div class="perm">
+              <label><input type="checkbox" id="okEmail"><span>Posso te enviar por e-mail artigos, convites de encontros e novidades do Raccoon?</span></label>
+              <label><input type="checkbox" id="okVagas"><span>Quer receber vagas que combinam com o seu perfil?</span></label>
+              <label><input type="checkbox" id="okBanco"><span>Posso compartilhar suas áreas e nível com os membros no banco de talentos?<small>Só área e nível. Nunca e-mail nem WhatsApp.</small></span></label>
+            </div>
+            <p class="aviso">Deixar tudo desmarcado também está ok. Suas respostas ficam só com a organização do Raccoon Club.</p>
+          </section>
+
+          <div class="erro" id="erro" role="alert"></div>
+          <div class="acoes">
+            <button class="btn btn-ghost" type="button" id="volta" style="display:none">Voltar</button>
+            <button class="btn btn-marrom" type="button" id="prox">Continuar</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="sucesso" id="sucesso">
+        <img src="icon.png" alt="">
+        <h2>Obrigada! 🦝</h2>
+        <p>Vamos usar suas respostas pra montar o primeiro mês do Raccoon. Em breve você recebe notícias no grupo.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="badge.png" alt="Raccoon Club">
+    <span>Uma comunidade criada pela RISE Design &amp; Branding</span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // ==== CONFIGURAÇÃO ====
+  const SUPABASE_URL = 'https://wpoeigoledhzyvomudgf.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indwb2VpZ29sZWRoenl2b211ZGdmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2NTM0ODMsImV4cCI6MjA5NjIyOTQ4M30.rTFjfnHt5X7sk8m6lXuAf2P6Q3aMyokobwVIRq9STSY';
+  // ======================
+
+  const $ = id => document.getElementById(id);
+  const TOTAL = 6;
+  let etapa = 1;
+
+  // pré-preenche por link: ?nome=...&email=...
+  const params = new URLSearchParams(location.search);
+  if (params.get('nome')) $('nome').value = params.get('nome').trim();
+  if (params.get('email')) $('email').value = params.get('email').trim();
+
+  // ===== áreas por tipo de designer =====
+  const AREAS = {
+    'Design gráfico': ['Branding', 'Editorial', 'Embalagem', 'Social media', 'Ilustração', 'Tipografia e lettering', 'Publicidade'],
+    'Design digital': ['UI', 'UX e pesquisa', 'Product design', 'Web e landing pages', 'Design systems', 'Motion', 'Games'],
+    'Audiovisual': ['Edição de vídeo', 'Motion graphics', 'Fotografia', '3D'],
+    'Estratégia e direção': ['Direção de arte', 'Estratégia de marca', 'UX writing', 'Gestão de design']
+  };
+
+  // ===== grupos de opções (pílulas) =====
+  const estado = {};
+  function ligaChips(box) {
+    const nome = box.dataset.nome, max = +box.dataset.max || 1;
+    estado[nome] = estado[nome] || [];
+    const cnt = box.dataset.cnt ? $(box.dataset.cnt) : null;
+    const atualiza = () => {
+      const sel = estado[nome];
+      box.querySelectorAll('.chip').forEach(c => {
+        const on = sel.includes(c.textContent.replace(/^✓ /, ''));
+        c.setAttribute('aria-pressed', on);
+        c.classList.toggle('bloq', max > 1 && !on && sel.length >= max);
+      });
+      if (cnt) cnt.textContent = sel.length + ' de ' + max;
+      box.dispatchEvent(new CustomEvent('mudou'));
+    };
+    box.addEventListener('click', e => {
+      const c = e.target.closest('.chip'); if (!c) return;
+      const v = c.textContent.replace(/^✓ /, '');
+      let sel = estado[nome];
+      if (max === 1) sel = estado[nome] = sel[0] === v ? [] : [v];
+      else if (sel.includes(v)) sel = estado[nome] = sel.filter(x => x !== v);
+      else if (sel.length < max) sel.push(v);
+      atualiza();
+    });
+    box._atualiza = atualiza;
+  }
+  document.querySelectorAll('.chips').forEach(ligaChips);
+
+  // áreas dinâmicas conforme o tipo de designer
+  const areasBox = $('areasBox'), blocoAreas = $('blocoAreas');
+  $('chipsIdentidade').addEventListener('mudou', () => {
+    const id = (estado.identidade || [])[0];
+    estado.areas = [];
+    if (!id) { blocoAreas.style.display = 'none'; areasBox.innerHTML = ''; return; }
+    blocoAreas.style.display = 'flex';
+    const lista = id === 'Ainda estou descobrindo'
+      ? Object.entries(AREAS)
+      : [[id, AREAS[id]]];
+    $('dicaAreas').textContent = id === 'Ainda estou descobrindo' ? 'até 2 · opcional' : 'até 2';
+    areasBox.innerHTML = '';
+    const caixa = document.createElement('div');
+    caixa.className = 'chips'; caixa.dataset.nome = 'areas'; caixa.dataset.max = '2';
+    if (lista.length === 1) {
+      caixa.innerHTML = lista[0][1].map(a => `<button type="button" class="chip">${a}</button>`).join('');
+    } else {
+      caixa.style.display = 'block';
+      caixa.innerHTML = lista.map(([g, itens]) => `<div class="grupo"><h3>${g}</h3><div class="chips">${itens.map(a => `<button type="button" class="chip">${a}</button>`).join('')}</div></div>`).join('');
+    }
+    areasBox.appendChild(caixa);
+    ligaChips(caixa);
+  });
+
+  // tema da palestra só aparece pra quem topa
+  $('chipsPalestra').addEventListener('mudou', () => {
+    const p = (estado.palestrar || [])[0] || '';
+    $('blocoTema').style.display = p && !p.startsWith('Prefiro') ? 'flex' : 'none';
+  });
+
+  // ===== navegação =====
+  const erro = $('erro');
+  const mostraErro = m => { erro.textContent = m; erro.classList.add('on'); };
+  const um = n => (estado[n] || []).length === 1;
+  const validar = n => {
+    if (n === 1) {
+      if (!$('nome').value.trim()) return ($('nome').focus(), 'Qual o seu nome?');
+      if (!$('email').checkValidity() || !$('email').value.trim()) return ($('email').focus(), 'Confere o e-mail, parece que falta algo.');
+      if (($('whatsapp').value.replace(/\D/g, '')).length < 10) return ($('whatsapp').focus(), 'Coloca o WhatsApp com DDD.');
+    }
+    if (n === 2 && !(um('nivel') && um('formacao') && um('trabalho'))) return 'Escolhe uma opção em cada pergunta pra continuar.';
+    if (n === 3) {
+      if (!um('identidade')) return 'Escolhe com qual tipo de designer você mais se identifica.';
+      if (estado.identidade[0] !== 'Ainda estou descobrindo' && !(estado.areas || []).length) return 'Marca pelo menos uma área que você ama fazer.';
+    }
+    if (n === 4 && !(estado.expectativas || []).length) return 'Marca pelo menos uma coisa que você espera do grupo.';
+    if (n === 5 && !um('palestrar')) return 'Conta pra gente se você toparia compartilhar o que sabe.';
+    return '';
+  };
+  const vai = n => {
+    etapa = n;
+    document.querySelectorAll('.etapa').forEach(s => s.classList.toggle('on', +s.dataset.etapa === n));
+    $('passoTxt').textContent = `Passo ${n} de ${TOTAL}`;
+    $('barra').style.setProperty('--p', (n / TOTAL * 100) + '%');
+    $('volta').style.display = n > 1 ? '' : 'none';
+    $('prox').textContent = n === TOTAL ? 'Enviar minhas respostas' : 'Continuar';
+    erro.classList.remove('on');
+    $('formBox').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+  $('volta').addEventListener('click', () => vai(etapa - 1));
+  $('prox').addEventListener('click', () => {
+    const m = validar(etapa);
+    if (m) return mostraErro(m);
+    if (etapa < TOTAL) vai(etapa + 1); else enviar();
+  });
+  ['click', 'input'].forEach(ev => $('f').addEventListener(ev, e => { if (e.target !== $('prox')) erro.classList.remove('on'); }));
+  $('f').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.target.tagName === 'INPUT' && e.target.type !== 'checkbox') { e.preventDefault(); $('prox').click(); }
+  });
+
+  // ===== envio =====
+  const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  async function enviar() {
+    if ($('site').value) { $('formBox').style.display = 'none'; $('sucesso').classList.add('on'); return; } // robô
+    for (let i = 1; i < TOTAL; i++) { const m = validar(i); if (m) { vai(i); return mostraErro(m); } }
+    const b = $('prox'); b.disabled = true; b.textContent = 'Enviando…';
+    const t = s => (s || '').trim() || null;
+    const { error } = await db.from('raccoon_pesquisa').insert({
+      nome: $('nome').value.trim(),
+      email: $('email').value.trim(),
+      whatsapp: $('whatsapp').value.trim(),
+      nivel: estado.nivel[0],
+      formacao: estado.formacao[0],
+      trabalho: estado.trabalho[0],
+      identidade: estado.identidade[0],
+      areas: estado.areas || [],
+      aprender: t($('aprender').value),
+      expectativas: estado.expectativas || [],
+      dificuldade: t($('dificuldade').value),
+      palestrar: estado.palestrar[0],
+      tema_palestra: t($('tema').value),
+      participacao: estado.participacao || [],
+      periodo: estado.periodo || [],
+      dias: estado.dias || [],
+      aceita_email: $('okEmail').checked,
+      aceita_vagas: $('okVagas').checked,
+      aceita_banco_talentos: $('okBanco').checked
+    });
+    if (error) {
+      console.error(error);
+      mostraErro('Não deu pra salvar agora. Tenta de novo em um instante.');
+      b.disabled = false; b.textContent = 'Enviar minhas respostas'; return;
+    }
+    $('formBox').style.display = 'none';
+    $('sucesso').classList.add('on');
+    $('sucesso').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  vai(1);
+</script>
+</body>
+</html>
