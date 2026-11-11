@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1º encontro online do Raccoon Club</title>
+<meta name="description" content="Sexta, 20/11, às 17h (Manaus). Online. Confirme sua presença no primeiro encontro do Raccoon Club.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="1º encontro online do Raccoon Club">
+<meta property="og:description" content="Sexta, 20/11, às 17h (Manaus). Online. Confirme sua presença.">
+<meta property="og:image" content="https://raccoonclub.riseagencia.com/og-pesquisa.jpg">
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--amarelo:#E3B200;--amarelo-2:#F5C518;--marrom:#25140C;--marrom-2:#3A2415;--creme:#FFFBF0;--areia:#F1E6C8;
+    --display:'Bricolage Grotesque',sans-serif;--texto:'Manrope',sans-serif;--ease:cubic-bezier(.2,.7,.2,1)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--texto);color:var(--marrom);background:var(--marrom);line-height:1.55;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100svh}
+  img{display:block;max-width:100%}
+  a{color:inherit}
+  h1,h2,h3{font-family:var(--display);line-height:.98;letter-spacing:-.025em;font-weight:800}
+  .wrap{width:min(1180px,100% - 48px);margin-inline:auto}
+  :focus-visible{outline:3px solid var(--amarelo);outline-offset:3px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;font-family:var(--display);font-weight:700;font-size:19px;padding:18px 26px;border-radius:14px;border:0;cursor:pointer;text-decoration:none;transition:transform .25s var(--ease),background .2s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn:disabled{opacity:.6;cursor:wait;transform:none}
+  .btn-marrom{background:var(--marrom);color:var(--creme)}
+  .btn-marrom:hover{background:var(--marrom-2)}
+  .btn-amarelo{background:var(--amarelo);color:var(--marrom)}
+  .btn-ghost{background:transparent;color:var(--marrom);border:2px solid rgba(37,20,12,.25)}
+
+
+  .painel{background:var(--amarelo);border-radius:48px 48px 0 0;margin-top:-48px;padding:72px 0 110px}
+  .card-f{background:var(--creme);border-radius:32px;padding:52px;max-width:760px;margin-inline:auto}
+  @media (max-width:640px){.painel{border-radius:32px 32px 0 0;padding:44px 0 80px;margin-top:-40px}.card-f{padding:30px 20px;border-radius:24px}}
+  .card-f h2{font-size:clamp(30px,3.6vw,44px);margin-bottom:8px}
+  .sub{color:rgba(37,20,12,.68);font-weight:500;margin-bottom:26px}
+  .campos{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media (max-width:640px){.campos{grid-template-columns:1fr}}
+  .campo{display:flex;flex-direction:column;gap:8px;min-width:0}
+  .rotulo{font-weight:700;font-size:15.5px}
+  input{font:inherit;font-size:17px;color:var(--marrom);background:#fff;border:2px solid rgba(37,20,12,.15);border-radius:12px;padding:13px 15px;width:100%}
+  input:focus{border-color:var(--marrom);outline:0}
+  .acoes{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap}
+  .acoes .btn{flex:1}
+  .erro{display:none;background:#fde8e3;color:#7a2a17;border-radius:12px;padding:12px 16px;font-weight:600;margin-top:18px}
+  .erro.on{display:block}
+  .aviso{font-size:13px;color:rgba(37,20,12,.55);margin-top:16px}
+
+  .missao{margin-top:36px;padding-top:32px;border-top:2px solid rgba(37,20,12,.1)}
+  .missao .k{font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#9A7800;margin-bottom:8px}
+  .missao h3{font-size:30px;margin-bottom:10px}
+  .missao ul{list-style:none;margin-top:14px;display:grid;gap:8px}
+  .missao li{padding-left:22px;position:relative}
+  .missao li::before{content:'';position:absolute;left:0;top:.6em;width:9px;height:9px;border-radius:50%;background:var(--amarelo)}
+
+  .sucesso{display:none;text-align:center}
+  .sucesso.on{display:block;animation:entra .5s var(--ease)}
+  @keyframes entra{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .sucesso img{width:150px;margin:0 auto 18px}
+  .sucesso h2{font-size:clamp(32px,4.4vw,50px);margin-bottom:10px}
+  .sucesso p{margin:10px auto 0;max-width:46ch;color:rgba(37,20,12,.75);font-weight:500}
+  .sucesso .acoes{justify-content:center;margin-top:28px}
+  footer{background:var(--marrom);color:rgba(255,251,240,.6);padding:32px 0;font-size:14px}
+  footer .wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between}
+  footer img{height:34px}
+  .barra{padding:22px 0 70px}
+  .barra img{height:44px}
+  .k1{font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#9A7800;margin-bottom:10px}
+  .quando{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 14px}
+  .quando span{background:var(--marrom);color:var(--creme);border-radius:999px;padding:8px 15px;font-weight:600;font-size:15px}
+</style>
+</head>
+<body>
+<header class="barra"><div class="wrap"><img src="badge.png" alt="Raccoon Club"></div></header>
+
+<main class="painel">
+  <div class="wrap">
+    <div class="card-f">
+      <div id="form">
+        <p class="k1">1º encontro online do Raccoon Club</p>
+        <h2>Confirma sua presença</h2>
+        <div class="quando"><span>Sexta, 20 de novembro</span><span>17h às 18h30 (Manaus) · 18h em Brasília</span><span>Online</span></div>
+        <p class="sub">Quem confirmar recebe por e-mail o link da sala e o convite pra agenda.</p>
+        <form id="f" novalidate>
+          <div class="campos">
+            <div class="campo"><label class="rotulo" for="nome">Seu nome</label><input id="nome" type="text" autocomplete="name" required></div>
+            <div class="campo"><label class="rotulo" for="email">Seu e-mail</label><input id="email" type="email" autocomplete="email" inputmode="email" required></div>
+          </div>
+          <div class="erro" id="erro" role="alert"></div>
+          <div class="acoes"><button class="btn btn-marrom" type="submit" id="enviar">Confirmar minha presença</button></div>
+          <p class="aviso">Usa o mesmo e-mail em que você recebeu o convite. Seus dados ficam só com a organização do Raccoon Club.</p>
+        </form>
+        <div class="missao">
+          <p class="k">Sua missão</p>
+          <h3>5 minutos de você.</h3>
+          <p>No dia, cada pessoa tem 5 minutos pra se apresentar. Você monta uma apresentação sobre você, do jeito que quiser.</p>
+          <ul>
+            <li>Conta da sua infância, dos seus hobbies e de como foi parar na sua área</li>
+            <li>Coloca fotos suas, recortes, textinhos do lado</li>
+            <li>Faz no programa que preferir: Canva, PowerPoint, Photoshop</li>
+            <li>Não precisa ser designer. Pode (e é bom) ter piada</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sucesso" id="sucesso">
+        <img src="icon.png" alt="">
+        <h2>Presença confirmada!</h2>
+        <p id="msgOk">Te mandamos um e-mail com o convite pra agenda. O link da sala chega perto do dia.</p>
+        <div class="acoes">
+          <a class="btn btn-marrom" id="gcal" target="_blank" rel="noopener">Adicionar ao Google Agenda</a>
+          <a class="btn btn-ghost" id="ics" download="encontro-raccoon-club.ics">Outra agenda (.ics)</a>
+        </div>
+        <p style="margin-top:26px">Agora é só montar sua apresentação de 5 minutos. A gente se vê dia 20!</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer><div class="wrap"><img src="badge.png" alt="Raccoon Club"><span>Uma comunidade criada pela RISE Design &amp; Branding</span></div></footer>
+
+<script>
+  // ==== CONFIGURAÇÃO ====
+  const FUNCAO = 'https://wpoeigoledhzyvomudgf.supabase.co/functions/v1/raccoon-encontro';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indwb2VpZ29sZWRoenl2b211ZGdmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2NTM0ODMsImV4cCI6MjA5NjIyOTQ4M30.rTFjfnHt5X7sk8m6lXuAf2P6Q3aMyokobwVIRq9STSY';
+  const EVENTO = {
+    titulo: '1º encontro online do Raccoon Club',
+    inicio: '20261120T210000Z', fim: '20261120T223000Z', // 17h às 18h30 em Manaus
+    descricao: 'Encontro pra gente se conhecer. Leva sua apresentação de 5 minutos sobre você. O link da sala chega por e-mail perto do dia.'
+  };
+  // ======================
+  const $ = id => document.getElementById(id);
+  const q = new URLSearchParams(location.search);
+  if (q.get('n')) $('nome').value = q.get('n').trim();
+  if (q.get('e')) $('email').value = q.get('e').trim();
+
+  $('gcal').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(EVENTO.titulo) +
+    '&dates=' + EVENTO.inicio + '/' + EVENTO.fim + '&details=' + encodeURIComponent(EVENTO.descricao) + '&location=Online';
+  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Raccoon Club//Encontro//PT-BR','BEGIN:VEVENT',
+    'UID:abre-a-toca-2026-11-20@raccoonclub.riseagencia.com','DTSTAMP:20261111T000000Z',
+    'DTSTART:' + EVENTO.inicio,'DTEND:' + EVENTO.fim,'SUMMARY:' + EVENTO.titulo,
+    'DESCRIPTION:' + EVENTO.descricao.replace(/,/g, '\\,'),'LOCATION:Online','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  $('ics').href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' }));
+
+  const erro = t => { $('erro').textContent = t; $('erro').classList.toggle('on', !!t); };
+  $('f').addEventListener('input', () => erro(''));
+  $('f').addEventListener('submit', async ev => {
+    ev.preventDefault();
+    const nome = $('nome').value.trim(), email = $('email').value.trim();
+    if (nome.length < 2) { erro('Coloca seu nome pra gente saber quem vem.'); $('nome').focus(); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { erro('Confere o e-mail, parece que faltou alguma coisa.'); $('email').focus(); return; }
+    const b = $('enviar'); b.disabled = true; b.textContent = 'Confirmando…';
+    try {
+      const r = await fetch(FUNCAO, { method: 'POST',
+        headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: 'Bearer ' + SUPABASE_ANON_KEY },
+        body: JSON.stringify({ nome, email }) });
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok || !d.ok) throw new Error(d.erro || r.status);
+      if (!d.email_enviado) $('msgOk').textContent = 'Presença anotada. Já salva na agenda pelos botões aqui embaixo. O link da sala chega por e-mail perto do dia.';
+      $('form').style.display = 'none'; $('sucesso').classList.add('on');
+    } catch (e) {
+      console.error(e); erro('Não deu pra confirmar agora. Tenta de novo em um instante.');
+      b.disabled = false; b.textContent = 'Confirmar minha presença';
+    }
+  });
+</script>
+</body>
+</html>
